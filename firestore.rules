@@ -1,0 +1,103 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Helper function to check if user is authenticated
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // Public portfolio data: site_settings, hero_data, about_data, projects, skills, services, experiences, education, process_steps, testimonials, stats
+    match /site_settings/{docId} {
+      allow read, write: if true;
+    }
+
+    match /hero_data/{docId} {
+      allow read, write: if true;
+    }
+
+    match /about_data/{docId} {
+      allow read, write: if true;
+    }
+
+    match /projects/{docId} {
+      allow read, write: if true;
+    }
+
+    match /skills/{docId} {
+      allow read, write: if true;
+    }
+
+    match /services/{docId} {
+      allow read, write: if true;
+    }
+
+    match /experiences/{docId} {
+      allow read, write: if true;
+    }
+
+    match /education/{docId} {
+      allow read, write: if true;
+    }
+
+    match /process_steps/{docId} {
+      allow read, write: if true;
+    }
+
+    match /testimonials/{docId} {
+      allow read, write: if true;
+    }
+
+    match /stats/{docId} {
+      allow read, write: if true;
+    }
+
+    match /achievements/{docId} {
+      allow read, write: if true;
+    }
+
+    match /faqs/{docId} {
+      allow read, write: if true;
+    }
+
+    match /cv_versions/{docId} {
+      allow read, write: if true;
+    }
+
+    match /media_items/{docId} {
+      allow read, write: if true;
+    }
+
+    // Inbound contact messages: Anyone can submit (create)
+    match /contact_messages/{msgId} {
+      allow read, write: if true;
+    }
+
+    // AI Assistant processed queries
+    match /ai_queries/{queryId} {
+      allow read, write: if true;
+    }
+
+    // Email notification logs & settings
+    match /email_notifications/{id} {
+      allow read, write: if true;
+    }
+
+    match /email_settings/{id} {
+      allow read, write: if true;
+    }
+
+    // User profiles
+    match /users/{userId} {
+      allow read, write: if true;
+    }
+
+    // Activity logs & Analytics
+    match /activity_logs/{logId} {
+      allow read, write: if true;
+    }
+
+    match /analytics/{docId} {
+      allow read, write: if true;
+    }
+  }
+}

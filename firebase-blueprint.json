@@ -1,0 +1,212 @@
+{
+  "entities": {
+    "site_settings": {
+      "title": "Site Settings",
+      "description": "Global portfolio configuration and owner details",
+      "type": "object",
+      "properties": {
+        "ownerName": { "type": "string" },
+        "roleTitle": { "type": "string" },
+        "email": { "type": "string" },
+        "phone": { "type": "string" },
+        "location": { "type": "string" },
+        "availability": { "type": "string" },
+        "githubUrl": { "type": "string" },
+        "linkedinUrl": { "type": "string" }
+      }
+    },
+    "hero_data": {
+      "title": "Hero Data",
+      "description": "Hero section content and dynamic headlines",
+      "type": "object",
+      "properties": {
+        "badgeText": { "type": "string" },
+        "mainHeading": { "type": "string" },
+        "subheading": { "type": "string" },
+        "roles": { "type": "array" }
+      }
+    },
+    "about_data": {
+      "title": "About Data",
+      "description": "About section narrative and philosophy",
+      "type": "object",
+      "properties": {
+        "subheading": { "type": "string" },
+        "paragraphs": { "type": "array" },
+        "highlightPoints": { "type": "array" },
+        "codePhilosophy": { "type": "string" }
+      }
+    },
+    "projects": {
+      "title": "Projects",
+      "description": "Commercial and featured portfolio projects",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "subtitle": { "type": "string" },
+        "category": { "type": "string" },
+        "summary": { "type": "string" },
+        "technologies": { "type": "array" },
+        "featured": { "type": "boolean" },
+        "order": { "type": "number" },
+        "published": { "type": "boolean" }
+      }
+    },
+    "skills": {
+      "title": "Skills",
+      "description": "Technical skills matrix and proficiency ratings",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "slug": { "type": "string" },
+        "category": { "type": "string" },
+        "proficiency": { "type": "number" },
+        "order": { "type": "number" },
+        "published": { "type": "boolean" }
+      }
+    },
+    "services": {
+      "title": "Services",
+      "description": "Client engineering and architectural services",
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "slug": { "type": "string" },
+        "description": { "type": "string" },
+        "features": { "type": "array" },
+        "order": { "type": "number" },
+        "published": { "type": "boolean" }
+      }
+    },
+    "experiences": {
+      "title": "Experience",
+      "description": "Professional engineering work history",
+      "type": "object",
+      "properties": {
+        "position": { "type": "string" },
+        "company": { "type": "string" },
+        "location": { "type": "string" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" },
+        "order": { "type": "number" },
+        "published": { "type": "boolean" }
+      }
+    },
+    "education": {
+      "title": "Education",
+      "description": "Academic qualifications and degrees",
+      "type": "object",
+      "properties": {
+        "degree": { "type": "string" },
+        "field": { "type": "string" },
+        "institution": { "type": "string" },
+        "startDate": { "type": "string" },
+        "endDate": { "type": "string" }
+      }
+    },
+    "process_steps": {
+      "title": "Process Steps",
+      "description": "Engineering execution methodology stages",
+      "type": "object",
+      "properties": {
+        "stepNumber": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "order": { "type": "number" },
+        "published": { "type": "boolean" }
+      }
+    },
+    "testimonials": {
+      "title": "Testimonials",
+      "description": "Client and colleague endorsements",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "role": { "type": "string" },
+        "company": { "type": "string" },
+        "quote": { "type": "string" },
+        "rating": { "type": "number" },
+        "published": { "type": "boolean" }
+      }
+    },
+    "stats": {
+      "title": "Stats",
+      "description": "Portfolio metric counters",
+      "type": "object",
+      "properties": {
+        "label": { "type": "string" },
+        "number": { "type": "string" },
+        "order": { "type": "number" },
+        "published": { "type": "boolean" }
+      }
+    },
+    "contact_messages": {
+      "title": "Contact Messages",
+      "description": "Inbound client and recruiter inquiries",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string" },
+        "createdAt": { "type": "string" }
+      }
+    },
+    "users": {
+      "title": "Users",
+      "description": "Admin and registered user profiles",
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "email": { "type": "string" },
+        "role": { "type": "string" }
+      }
+    },
+    "ai_queries": {
+      "title": "AI Assistant Queries",
+      "description": "User queries processed by the AI Technical Assistant Center",
+      "type": "object",
+      "properties": {
+        "userQuery": { "type": "string" },
+        "assistantReply": { "type": "string" },
+        "mode": { "type": "string" },
+        "model": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "notificationSent": { "type": "boolean" },
+        "clientEmail": { "type": "string" },
+        "clientName": { "type": "string" }
+      }
+    },
+    "email_notifications": {
+      "title": "Email Notification Logs",
+      "description": "Logs of automated email notifications dispatched to Sameer Habib",
+      "type": "object",
+      "properties": {
+        "recipient": { "type": "string" },
+        "senderName": { "type": "string" },
+        "senderEmail": { "type": "string" },
+        "subject": { "type": "string" },
+        "message": { "type": "string" },
+        "status": { "type": "string" },
+        "provider": { "type": "string" },
+        "timestamp": { "type": "string" }
+      }
+    }
+  },
+  "firestore": {
+    "/contact_messages/{msgId}": {
+      "schema": "contact_messages",
+      "description": "Inbound client and recruiter inquiries from the Contact Section"
+    },
+    "/ai_queries/{queryId}": {
+      "schema": "ai_queries",
+      "description": "Queries processed by the AI Assistant Center"
+    },
+    "/email_notifications/{logId}": {
+      "schema": "email_notifications",
+      "description": "Audit trail of sent email notifications"
+    }
+  }
+}

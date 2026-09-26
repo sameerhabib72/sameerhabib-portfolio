@@ -1,0 +1,493 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --font-display: 'Syne', sans-serif;
+    --accentLeather: #c87a3e;
+    --accentAmber: #d97706;
+    --accentGold: #f59e0b;
+    --accentWarmCream: #f3d5b5;
+    --backgroundColor: #080706;
+    --surfaceCard: #15110d;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    background-color: #080706;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: #080706;
+    color: #f5ebe0;
+    overflow-x: hidden;
+  }
+
+  /* Custom subtle scrollbar with leather warm tone */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #080706;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #2a1f17;
+    border-radius: 9999px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #c87a3e;
+  }
+}
+
+/* Glassmorphic & Leather Glow utilities */
+.glass-panel {
+  background: rgba(21, 17, 13, 0.7);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(200, 122, 62, 0.15);
+  box-shadow: inset 0 1px 0 0 rgba(243, 213, 181, 0.08);
+}
+
+.glass-panel-hover {
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-panel-hover:hover {
+  background: rgba(30, 23, 18, 0.85);
+  border-color: rgba(200, 122, 62, 0.4);
+  box-shadow: 0 16px 40px -12px rgba(0, 0, 0, 0.8), 0 0 30px -8px rgba(200, 122, 62, 0.25), inset 0 1px 0 0 rgba(243, 213, 181, 0.15);
+  transform: translateY(-4px);
+}
+
+.badge-glow-leather {
+  background: rgba(200, 122, 62, 0.12);
+  border: 1px solid rgba(200, 122, 62, 0.35);
+  color: #f3d5b5;
+}
+
+.badge-glow-amber {
+  background: rgba(217, 119, 6, 0.12);
+  border: 1px solid rgba(217, 119, 6, 0.35);
+  color: #fde68a;
+}
+
+/* Smooth Infinite Marquee */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 28s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Ambient Pulse Glow */
+@keyframes ambient-glow {
+  0%, 100% { opacity: 0.35; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.08); }
+}
+.animate-ambient-glow {
+  animation: ambient-glow 8s ease-in-out infinite;
+}
+
+/* ============================================================ */
+/* PRODUCTION WORK SECTION HORIZONTAL SCROLLER CSS            */
+/* ============================================================ */
+
+/* --- WORK SECTION (.work-section) --- */
+.work-section {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #080706;
+  overflow: hidden;
+}
+
+.work-container {
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  padding: 50px 40px 30px;
+  box-sizing: border-box;
+}
+
+.work-section h2 {
+  font-size: 70px;
+  font-weight: 800;
+  margin-bottom: 25px;
+  color: #fff;
+  text-align: left;
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+.work-section h2 > span {
+  background: linear-gradient(to right, #f3d5b5, #e59850, #c87a3e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.work-flex {
+  width: 100%;
+  display: flex;
+  position: relative;
+  border-top: 1px solid rgba(200, 122, 62, 0.15);
+  border-bottom: 1px solid rgba(200, 122, 62, 0.15);
+  background-color: #080706;
+}
+
+.work-box {
+  padding: 60px 70px;
+  display: flex;
+  flex-direction: column;
+  width: 580px;
+  min-width: 580px;
+  box-sizing: border-box;
+  border-right: 1px solid rgba(200, 122, 62, 0.15);
+  flex-shrink: 0;
+  gap: 35px;
+  justify-content: flex-start;
+  text-align: left;
+  transition: all 0.4s ease;
+}
+
+.work-box:hover {
+  background-color: rgba(26, 20, 15, 0.75);
+  box-shadow: inset 0 0 40px rgba(200, 122, 62, 0.1);
+}
+
+.work-box.work-box-even {
+  flex-direction: column-reverse;
+}
+
+.work-title {
+  justify-content: space-between;
+  display: flex;
+  width: 100%;
+  margin-bottom: 15px;
+  align-items: flex-start;
+}
+
+.work-title > div {
+  text-align: right;
+}
+
+.work-title h3 {
+  font-size: 52px;
+  line-height: 50px;
+  margin: 0;
+  font-weight: 800;
+  background: linear-gradient(135deg, #f3d5b5 0%, #e59850 50%, #c87a3e 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-family: var(--font-mono);
+}
+
+.work-info h4 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+  color: #ffffff;
+  font-family: var(--font-display);
+}
+
+.work-info p {
+  font-weight: 400;
+  color: #d4a373;
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.work-info > p {
+  width: 90%;
+}
+
+.work-image {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+.work-image-in {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  overflow: hidden;
+  display: block;
+  cursor: pointer;
+  border: 1px solid rgba(200, 122, 62, 0.2);
+  background: #15110d;
+}
+
+.work-image img {
+  width: 100%;
+  max-height: 280px;
+  object-fit: cover;
+  border-radius: 20px;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.work-image-in:hover img {
+  transform: scale(1.06);
+}
+
+.work-link {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  background: linear-gradient(135deg, #c87a3e, #d97706);
+  width: 52px;
+  border-radius: 50px;
+  height: 52px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 22px;
+  box-shadow: 0 0 30px rgba(200, 122, 62, 0.6);
+  transition: all 0.3s ease;
+  opacity: 0;
+  color: #ffffff;
+}
+
+.work-image-in:hover .work-link {
+  opacity: 1;
+  transform: scale(1.08);
+}
+
+.work-box-cta {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-right: none;
+  width: 440px;
+  min-width: 440px;
+}
+
+.see-all-works {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+.see-all-works h3 {
+  font-size: 32px;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+  font-family: var(--font-display);
+}
+
+.see-all-works p {
+  font-size: 15px;
+  color: #d4a373;
+  max-width: 260px;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.see-all-btn {
+  display: inline-block;
+  padding: 14px 36px;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  background: linear-gradient(135deg, #c87a3e 0%, #b45309 50%, #d97706 100%);
+  border-radius: 9999px;
+  text-decoration: none;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  margin-top: 10px;
+  box-shadow: 0 0 25px rgba(200, 122, 62, 0.4);
+}
+
+.see-all-btn:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 40px rgba(217, 119, 6, 0.6);
+}
+
+/* Responsive Media Queries matching redoyanulhaque.me */
+@media only screen and (max-width: 1024px) {
+  .whatIDO {
+    height: auto;
+    padding: 60px 20px;
+  }
+  .what-box-in {
+    height: 500px;
+    margin-left: -20px;
+  }
+  .what-content {
+    padding: 35px;
+  }
+}
+
+@media only screen and (max-width: 900px) {
+  .whatIDO {
+    flex-direction: column;
+    padding: 60px 20px;
+  }
+  .what-box {
+    width: 100%;
+    justify-content: flex-start;
+  }
+  .what-box h2 {
+    margin: 30px 0 40px;
+    font-size: 50px;
+    line-height: 48px;
+  }
+  .what-box-in {
+    margin-left: 0;
+    width: 100%;
+    height: 460px;
+  }
+  .what-content {
+    padding: 25px;
+  }
+
+  .techstack-content h2 {
+    font-size: 48px;
+    margin-bottom: 30px;
+  }
+
+  .work-section {
+    height: auto;
+  }
+  .work-container {
+    padding: 40px 15px 20px;
+  }
+  .work-flex {
+    flex-direction: column;
+  }
+  .work-box {
+    width: 100%;
+    min-width: 100%;
+    padding: 30px 15px;
+    border-right: none;
+    border-bottom: 1px solid rgba(200, 122, 62, 0.15);
+    gap: 20px;
+  }
+  .work-box.work-box-even {
+    flex-direction: column;
+  }
+  .work-box-cta {
+    width: 100%;
+    min-width: 100%;
+    padding: 50px 20px;
+  }
+  .work-section h2 {
+    font-size: 40px;
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+  .work-title h3 {
+    font-size: 36px;
+    line-height: 36px;
+  }
+  .work-info h4 {
+    font-size: 20px;
+  }
+}
+
+/* ============================================================ */
+/* TECH STACK & SKILLS SECTION CSS (redoyanulhaque.me style)    */
+/* ============================================================ */
+
+.techstack-section {
+  position: relative;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #080706;
+  padding: 80px 0;
+  overflow: hidden;
+  border-top: 1px solid rgba(200, 122, 62, 0.15);
+}
+
+.techstack-container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 30px;
+  box-sizing: border-box;
+}
+
+.techstack-header h2 {
+  font-size: 64px;
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: #fff;
+  text-align: left;
+  font-family: var(--font-display);
+  letter-spacing: -0.03em;
+}
+
+.techstack-header h2 > span {
+  background: linear-gradient(to right, #f3d5b5, #e59850, #c87a3e);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.tech-category-box {
+  background: rgba(21, 17, 13, 0.75);
+  border: 1px solid rgba(200, 122, 62, 0.18);
+  border-radius: 24px;
+  padding: 32px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(16px);
+}
+
+.tech-category-box:hover {
+  border-color: rgba(200, 122, 62, 0.5);
+  box-shadow: 0 0 30px rgba(200, 122, 62, 0.2);
+}
+
+.tech-skill-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 18px;
+  border-radius: 16px;
+  background: rgba(243, 213, 181, 0.03);
+  border: 1px solid rgba(200, 122, 62, 0.12);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.tech-skill-card:hover {
+  background: rgba(200, 122, 62, 0.1);
+  border-color: rgba(200, 122, 62, 0.5);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(200, 122, 62, 0.3);
+}
+
+.tech-skill-card img {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.tech-skill-card:hover img {
+  transform: scale(1.15);
+}
+
+@media only screen and (max-width: 768px) {
+  .techstack-header h2 {
+    font-size: 38px;
+  }
+  .tech-category-box {
+    padding: 20px;
+    border-radius: 18px;
+  }
+}
