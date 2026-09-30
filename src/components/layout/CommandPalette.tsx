@@ -91,6 +91,20 @@ export const CommandPalette: React.FC = () => {
         setCommandPaletteOpen(false);
         navigateTo('home');
       }
+    },
+    {
+      id: 'nav-arch',
+      title: 'Engineering Architecture & 6-Layer Topology',
+      subtitle: 'Explore full-stack Next.js, Laravel, Redis, and MySQL layer breakdown',
+      category: 'Navigation',
+      icon: Code2,
+      action: () => {
+        setCommandPaletteOpen(false);
+        navigateTo('home');
+        setTimeout(() => {
+          document.getElementById('architecture')?.scrollIntoView({ behavior: 'smooth' });
+        }, 100);
+      }
     }
   ];
 

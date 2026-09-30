@@ -971,27 +971,39 @@ export const DataProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   }, []);
 
   // Media
-  const addMediaItem = useCallback((item: Omit<MediaItem, 'id' | 'uploadedAt'>) => {
+  const addMediaItem = useCallback(async (item: Omit<MediaItem, 'id' | 'uploadedAt'>) => {
     const newItem: MediaItem = {
       ...item,
       id: 'media-' + Date.now(),
       uploadedAt: new Date().toISOString().substring(0, 10)
     };
     setMediaItems((prev) => [newItem, ...prev]);
-    saveItemToCollection('media_items', newItem);
-    showToast('Media item registered in database');
-  }, [showToast]);
+    try {
+      await saveItemToCollection('media_items', newItem);
+      logActivity('Uploaded Media', newItem.filename);
+      showToast(`Saved "${newItem.filename}" to cloud storage & database!`, 'success');
+    } catch (err: any) {
+      console.error('Failed to sync media item in Firestore:', err);
+      showToast(`Image saved locally. Cloud sync warning: ${err?.message || 'Storage limit'}`, 'info');
+    }
+  }, [logActivity, showToast]);
 
-  const addMediaItemsBatch = useCallback((items: Array<Omit<MediaItem, 'id' | 'uploadedAt'>>) => {
+  const addMediaItemsBatch = useCallback(async (items: Array<Omit<MediaItem, 'id' | 'uploadedAt'>>) => {
     const newItems: MediaItem[] = items.map((it, idx) => ({
       ...it,
       id: `media-${Date.now()}-${idx}`,
       uploadedAt: new Date().toISOString().substring(0, 10)
     }));
     setMediaItems((prev) => [...newItems, ...prev]);
-    newItems.forEach((it) => saveItemToCollection('media_items', it));
-    showToast(`${items.length} media items uploaded to database`);
-  }, [showToast]);
+    try {
+      await Promise.all(newItems.map((it) => saveItemToCollection('media_items', it)));
+      logActivity('Uploaded Media Batch', `${newItems.length} assets`);
+      showToast(`${items.length} media items uploaded and saved to cloud database!`, 'success');
+    } catch (err: any) {
+      console.error('Failed to sync media batch to Firestore:', err);
+      showToast(`${items.length} items saved locally. Cloud sync note: ${err?.message || 'Warning'}`, 'info');
+    }
+  }, [logActivity, showToast]);
 
   const deleteMediaItem = useCallback((id: string) => {
     setMediaItems((prev) => prev.filter((m) => m.id !== id));

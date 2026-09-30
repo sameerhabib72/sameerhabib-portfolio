@@ -43,9 +43,17 @@ import {
   Mail,
   Phone,
   DollarSign,
-  Calendar
+  Calendar,
+  Layout,
+  Share2,
+  Globe,
+  Twitter,
+  Linkedin,
+  Github,
+  MessageCircle
 } from 'lucide-react';
 import { ProjectItem, SkillItem, ContactMessageItem, SiteSettings, MediaItem } from '../../types';
+import { optimizeImageFile } from '../../utils/imageOptimizer';
 import { AdminHeroSectionManager } from './AdminHeroSectionManager';
 import { AdminAboutSectionManager } from './AdminAboutSectionManager';
 import { AdminStatsManager } from './AdminStatsManager';
@@ -62,6 +70,8 @@ import { AdminNotificationsDropdown } from './AdminNotificationsDropdown';
 import { AdminFileManagerModal } from './AdminFileManagerModal';
 import { AdminProjectEditModal } from './AdminProjectEditModal';
 import { AdminEmailNotificationsManager } from './AdminEmailNotificationsManager';
+import { AdminFooterManager } from './AdminFooterManager';
+import { AdminSocialLinksManager } from './AdminSocialLinksManager';
 
 const PRESET_PROFILE_AVATARS = [
   { label: 'Sameer Habib (Classic)', url: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300&auto=format&fit=crop&q=80' },
@@ -135,21 +145,29 @@ export const AdminDashboard: React.FC = () => {
     setProfileModalOpen(true);
   };
 
-  const handleProfileFileUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleProfileFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
     if (!file.type.startsWith('image/')) {
       showToast('Please select a valid image file', 'error');
       return;
     }
-    const reader = new FileReader();
-    reader.onload = () => {
-      if (typeof reader.result === 'string') {
-        setProfileAvatar(reader.result);
-        showToast('Profile image loaded from device');
-      }
-    };
-    reader.readAsDataURL(file);
+    showToast('Optimizing avatar image...', 'info');
+    try {
+      const { dataUrl } = await optimizeImageFile(file, 800, 200 * 1024);
+      setProfileAvatar(dataUrl);
+      showToast('Profile image loaded and optimized from device', 'success');
+    } catch {
+      const reader = new FileReader();
+      reader.onload = () => {
+        if (typeof reader.result === 'string') {
+          setProfileAvatar(reader.result);
+          showToast('Profile image loaded from device');
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+    e.target.value = '';
   };
 
   const handleSaveProfile = (e: React.FormEvent) => {
@@ -185,6 +203,7 @@ export const AdminDashboard: React.FC = () => {
     | 'experience'
     | 'education'
     | 'services'
+    | 'footer'
     | 'cv'
     | 'pages'
     | 'subscribers'
@@ -192,6 +211,7 @@ export const AdminDashboard: React.FC = () => {
     | 'messages'
     | 'email-notifications'
     | 'users'
+    | 'social'
     | 'settings'
     | 'backup';
 
@@ -504,6 +524,22 @@ export const AdminDashboard: React.FC = () => {
                 </div>
                 <span className="text-[10px] font-mono text-[#e59850]">{mediaItems.length}</span>
               </button>
+
+              <button
+                id="tab-btn-footer"
+                onClick={() => setActiveTab('footer')}
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+                  activeTab === 'footer'
+                    ? 'bg-[#281b13] text-[#f3d5b5] border border-[#e59850]/50 font-semibold shadow-xs'
+                    : 'text-[#d4a373] hover:bg-[#1a130e] hover:text-white'
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <Layout className="w-4 h-4 text-[#e59850]" />
+                  <span>Footer Controls</span>
+                </div>
+                <span className="text-[10px] font-mono text-emerald-400">Live</span>
+              </button>
             </div>
 
             {/* Group 2: Inquiries & Releases */}
@@ -600,6 +636,22 @@ export const AdminDashboard: React.FC = () => {
               >
                 <Settings className="w-4 h-4 text-[#e59850]" />
                 <span>Site Identity &amp; SEO</span>
+              </button>
+
+              <button
+                id="tab-btn-social"
+                onClick={() => setActiveTab('social')}
+                className={`w-full flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-colors cursor-pointer ${
+                  activeTab === 'social'
+                    ? 'bg-[#281b13] text-[#f3d5b5] border border-[#e59850]/50 font-semibold shadow-xs'
+                    : 'text-[#d4a373] hover:bg-[#1a130e] hover:text-white'
+                }`}
+              >
+                <div className="flex items-center space-x-3">
+                  <Share2 className="w-4 h-4 text-[#e59850]" />
+                  <span>Social Media &amp; Links</span>
+                </div>
+                <span className="text-[10px] font-mono text-emerald-400 font-semibold">Active</span>
               </button>
 
               <button
@@ -839,6 +891,22 @@ export const AdminDashboard: React.FC = () => {
                     <span className="text-xs font-bold text-white group-hover:text-[#f3d5b5] block">Messages</span>
                     <span className="text-[10px] text-emerald-400">{contactMessages.length} Leads</span>
                   </button>
+
+                  <button
+                    onClick={() => setActiveTab('footer')}
+                    className="p-3.5 rounded-2xl bg-[#1c1510] hover:bg-[#281b14] border border-[#c87a3e]/20 text-left transition-all cursor-pointer group"
+                  >
+                    <span className="text-xs font-bold text-white group-hover:text-[#f3d5b5] block">Footer Controls</span>
+                    <span className="text-[10px] text-emerald-400">Links, Bio &amp; Legal</span>
+                  </button>
+
+                  <button
+                    onClick={() => setActiveTab('social')}
+                    className="p-3.5 rounded-2xl bg-[#1c1510] hover:bg-[#281b14] border border-[#c87a3e]/20 text-left transition-all cursor-pointer group"
+                  >
+                    <span className="text-xs font-bold text-white group-hover:text-[#f3d5b5] block">Social Media Links</span>
+                    <span className="text-[10px] text-[#e59850]">GitHub, LinkedIn, WhatsApp</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -855,6 +923,12 @@ export const AdminDashboard: React.FC = () => {
 
           {/* TAB: TESTIMONIALS MANAGER */}
           {activeTab === 'testimonials' && <AdminTestimonialsManager />}
+
+          {/* TAB: FOOTER CONTROLS MANAGER */}
+          {activeTab === 'footer' && <AdminFooterManager />}
+
+          {/* TAB: SOCIAL MEDIA LINKS MANAGER */}
+          {activeTab === 'social' && <AdminSocialLinksManager />}
 
           {/* TAB: PROJECTS MANAGER */}
           {activeTab === 'projects' && (
@@ -1192,26 +1266,40 @@ export const AdminDashboard: React.FC = () => {
                     onChange={async (e) => {
                       if (e.target.files && e.target.files.length > 0) {
                         const fileList = Array.from(e.target.files);
+                        showToast(`Compressing & optimizing ${fileList.length} image(s)...`, 'info');
                         const newBatch: any[] = [];
                         for (const file of fileList) {
-                          const dataUrl = await new Promise<string>((res) => {
-                            const reader = new FileReader();
-                            reader.onload = () => res(reader.result as string);
-                            reader.readAsDataURL(file);
-                          });
-                          const sizeKb = Math.round(file.size / 1024);
-                          newBatch.push({
-                            filename: file.name,
-                            url: dataUrl,
-                            altText: file.name,
-                            caption: 'Uploaded via Admin Media Tab',
-                            size: `${sizeKb} KB`,
-                            type: file.type,
-                            usedIn: 'Media Library'
-                          });
+                          try {
+                            const { dataUrl, sizeStr, type } = await optimizeImageFile(file, 1400, 320 * 1024);
+                            newBatch.push({
+                              filename: file.name,
+                              url: dataUrl,
+                              altText: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
+                              caption: 'Uploaded via Admin Media Tab',
+                              size: sizeStr,
+                              type,
+                              usedIn: 'Media Library'
+                            });
+                          } catch (err) {
+                            console.error('Image optimization fallback:', err);
+                            const dataUrl = await new Promise<string>((res) => {
+                              const reader = new FileReader();
+                              reader.onload = () => res(reader.result as string);
+                              reader.readAsDataURL(file);
+                            });
+                            newBatch.push({
+                              filename: file.name,
+                              url: dataUrl,
+                              altText: file.name,
+                              caption: 'Uploaded via Admin Media Tab',
+                              size: `${Math.round(file.size / 1024)} KB`,
+                              type: file.type,
+                              usedIn: 'Media Library'
+                            });
+                          }
                         }
-                        addMediaItemsBatch(newBatch);
-                        showToast(`Uploaded ${newBatch.length} images!`);
+                        await addMediaItemsBatch(newBatch);
+                        e.target.value = '';
                       }
                     }}
                   />
@@ -1487,9 +1575,9 @@ export const AdminDashboard: React.FC = () => {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 pt-2">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                   <div>
-                    <label className="block text-[#f3d5b5] mb-1 font-mono uppercase">GitHub URL</label>
+                    <label className="block text-[#f3d5b5] mb-1 font-mono uppercase">GitHub Profile URL</label>
                     <input
                       type="text"
                       value={siteSettings.githubUrl}
@@ -1498,11 +1586,30 @@ export const AdminDashboard: React.FC = () => {
                     />
                   </div>
                   <div>
-                    <label className="block text-[#f3d5b5] mb-1 font-mono uppercase">LinkedIn URL</label>
+                    <label className="block text-[#f3d5b5] mb-1 font-mono uppercase">LinkedIn Profile URL</label>
                     <input
                       type="text"
                       value={siteSettings.linkedinUrl}
                       onChange={(e) => updateSiteSettings({ linkedinUrl: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl bg-[#0a0806] border border-[#c87a3e]/25 text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[#f3d5b5] mb-1 font-mono uppercase">Twitter / X URL</label>
+                    <input
+                      type="text"
+                      value={siteSettings.twitterUrl}
+                      onChange={(e) => updateSiteSettings({ twitterUrl: e.target.value })}
+                      className="w-full px-3 py-2 rounded-xl bg-[#0a0806] border border-[#c87a3e]/25 text-white"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-[#f3d5b5] mb-1 font-mono uppercase">WhatsApp Direct Link</label>
+                    <input
+                      type="text"
+                      value={siteSettings.whatsappUrl}
+                      onChange={(e) => updateSiteSettings({ whatsappUrl: e.target.value })}
+                      placeholder="https://wa.me/923112802870"
                       className="w-full px-3 py-2 rounded-xl bg-[#0a0806] border border-[#c87a3e]/25 text-white"
                     />
                   </div>
@@ -1644,20 +1751,93 @@ export const AdminDashboard: React.FC = () => {
             </div>
 
             <form onSubmit={handleSaveProfile} className="space-y-4 text-xs">
-              <div className="flex items-center space-x-4">
-                <img
-                  src={profileAvatar}
-                  alt="Preview"
-                  className="w-16 h-16 rounded-2xl object-cover border-2 border-[#e59850]"
-                />
-                <div className="space-y-1">
-                  <label className="block text-[#f3d5b5] font-mono uppercase">Avatar Image URL</label>
-                  <input
-                    type="text"
-                    value={profileAvatar}
-                    onChange={(e) => setProfileAvatar(e.target.value)}
-                    className="w-full px-3 py-1.5 rounded-lg bg-[#0a0806] border border-[#c87a3e]/25 text-white"
-                  />
+              {/* Avatar Selection & Media Library Option */}
+              <div className="space-y-2">
+                <label className="block text-[#f3d5b5] font-mono uppercase text-xs">Administrator Avatar / Photo</label>
+
+                <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 p-4 rounded-2xl bg-[#090705] border border-[#c87a3e]/25">
+                  <div className="relative group shrink-0">
+                    <img
+                      src={profileAvatar || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=300'}
+                      alt="Preview"
+                      className="w-20 h-20 rounded-2xl object-cover border-2 border-[#e59850] shadow-md"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setProfileFileManagerOpen(true)}
+                      className="absolute inset-0 bg-black/70 opacity-0 group-hover:opacity-100 transition-opacity rounded-2xl flex flex-col items-center justify-center text-white text-[10px] font-mono cursor-pointer"
+                    >
+                      <FolderOpen className="w-4 h-4 mb-0.5 text-[#e59850]" />
+                      <span>Browse</span>
+                    </button>
+                  </div>
+
+                  <div className="flex-1 space-y-2.5 w-full">
+                    {/* Media Select & Upload Buttons */}
+                    <div className="flex flex-wrap gap-2">
+                      <button
+                        type="button"
+                        onClick={() => setProfileFileManagerOpen(true)}
+                        className="flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-gradient-to-r from-[#b4652a] to-[#d97706] hover:brightness-110 text-white font-mono font-bold text-xs shadow-md transition-all cursor-pointer"
+                      >
+                        <FolderOpen className="w-3.5 h-3.5" />
+                        <span>Select from Media Library</span>
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => profileFileInputRef.current?.click()}
+                        className="flex items-center space-x-1.5 px-3 py-2 rounded-xl bg-[#1e1510] hover:bg-[#281b14] border border-[#c87a3e]/30 text-[#f3d5b5] hover:text-white font-mono text-xs transition-all cursor-pointer"
+                      >
+                        <Upload className="w-3.5 h-3.5 text-[#e59850]" />
+                        <span>Upload Device Photo</span>
+                      </button>
+
+                      <input
+                        ref={profileFileInputRef}
+                        type="file"
+                        accept="image/*"
+                        className="hidden"
+                        onChange={handleProfileFileUpload}
+                      />
+                    </div>
+
+                    {/* Direct Image URL input */}
+                    <div>
+                      <input
+                        type="text"
+                        value={profileAvatar}
+                        onChange={(e) => setProfileAvatar(e.target.value)}
+                        placeholder="Or paste external image URL..."
+                        className="w-full px-3 py-1.5 rounded-lg bg-[#140e0a] border border-[#c87a3e]/20 text-white text-[11px] font-mono focus:border-[#e59850] focus:outline-none"
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Preset Avatars Row */}
+                <div className="space-y-1.5 pt-1">
+                  <span className="text-[10px] font-mono text-[#a88264] uppercase block">
+                    Or Pick From Presets:
+                  </span>
+                  <div className="flex items-center space-x-2">
+                    {PRESET_PROFILE_AVATARS.map((preset, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        onClick={() => {
+                          setProfileAvatar(preset.url);
+                          showToast(`Selected "${preset.label}"`);
+                        }}
+                        className={`w-9 h-9 rounded-xl overflow-hidden border-2 transition-all cursor-pointer ${
+                          profileAvatar === preset.url ? 'border-[#e59850] scale-105' : 'border-[#c87a3e]/25 opacity-70 hover:opacity-100'
+                        }`}
+                        title={preset.label}
+                      >
+                        <img src={preset.url} alt={preset.label} className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
                 </div>
               </div>
 
@@ -1686,13 +1866,13 @@ export const AdminDashboard: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setProfileModalOpen(false)}
-                  className="px-4 py-2 rounded-xl bg-[#1e1510] text-[#d4a373]"
+                  className="px-4 py-2 rounded-xl bg-[#1e1510] text-[#d4a373] cursor-pointer"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
-                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#b4652a] to-[#d97706] font-bold text-white shadow-md"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-[#b4652a] to-[#d97706] font-bold text-white shadow-md cursor-pointer"
                 >
                   Save Profile
                 </button>
@@ -1701,6 +1881,20 @@ export const AdminDashboard: React.FC = () => {
           </div>
         </div>
       )}
+
+      {/* File Manager Modal for Profile Avatar Selection */}
+      <AdminFileManagerModal
+        isOpen={profileFileManagerOpen}
+        onClose={() => setProfileFileManagerOpen(false)}
+        mode="single"
+        title="Select Profile Avatar from Media Library"
+        projectContextName="Admin Profile Avatar"
+        onSelectSingle={(url) => {
+          setProfileAvatar(url);
+          setProfileFileManagerOpen(false);
+          showToast('Profile avatar selected from media library!', 'success');
+        }}
+      />
     </div>
   );
 };

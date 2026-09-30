@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useData } from '../../context/DataContext';
 import { MediaItem } from '../../types';
+import { optimizeImageFile } from '../../utils/imageOptimizer';
 import {
   X,
   Upload,
@@ -187,20 +188,34 @@ export const AdminFileManagerModal: React.FC<AdminFileManagerModalProps> = ({
 
     for (let i = 0; i < fileArray.length; i++) {
       const file = fileArray[i];
-      const dataUrl = await readFileAsDataUrl(file);
-      const sizeKb = Math.round(file.size / 1024);
-      const sizeStr = sizeKb >= 1024 ? `${(sizeKb / 1024).toFixed(1)} MB` : `${sizeKb} KB`;
+      setUploadProgress(`Compressing & optimizing image ${i + 1} of ${fileArray.length}...`);
+      try {
+        const { dataUrl, sizeStr, type } = await optimizeImageFile(file, 1400, 320 * 1024);
 
-      newMediaList.push({
-        filename: file.name,
-        url: dataUrl,
-        altText: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
-        caption: `Uploaded image for ${projectContextName || 'Project Management'}`,
-        size: sizeStr,
-        type: file.type,
-        usedIn: projectContextName ? `Project: ${projectContextName}` : 'Uploaded Media Asset'
-      });
-      newUrls.push(dataUrl);
+        newMediaList.push({
+          filename: file.name,
+          url: dataUrl,
+          altText: file.name.replace(/\.[^/.]+$/, '').replace(/[-_]/g, ' '),
+          caption: `Uploaded image for ${projectContextName || 'Project Management'}`,
+          size: sizeStr,
+          type,
+          usedIn: projectContextName ? `Project: ${projectContextName}` : 'Uploaded Media Asset'
+        });
+        newUrls.push(dataUrl);
+      } catch (err) {
+        console.error('Image compression fallback:', err);
+        const dataUrl = await readFileAsDataUrl(file);
+        newMediaList.push({
+          filename: file.name,
+          url: dataUrl,
+          altText: file.name,
+          caption: 'Uploaded image',
+          size: `${Math.round(file.size / 1024)} KB`,
+          type: file.type,
+          usedIn: 'Uploaded Media Asset'
+        });
+        newUrls.push(dataUrl);
+      }
     }
 
     addMediaItemsBatch(newMediaList);

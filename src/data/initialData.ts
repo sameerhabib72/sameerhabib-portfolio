@@ -70,6 +70,43 @@ export const initialSiteSettings: SiteSettings = {
     notificationEmail: 'sameerhabib72@gmail.com',
     notifyOnContact: true,
     notifyOnAiInquiry: true,
+  },
+  footerSettings: {
+    brandTitle: 'Sameer Habib',
+    brandTagline: 'Senior Full Stack Developer',
+    brandDescription: 'Engineering robust web applications, e-commerce architectures, and responsive digital products with Laravel, PHP, React.js, and Next.js.',
+    brandBadge: 'Code • Build • Scale',
+    showAvailabilityBadge: true,
+    exploreTitle: 'Explore',
+    showAiAssistantLink: true,
+    exploreLinks: [
+      { id: 'exp-1', label: 'About Narrative', url: '#about' },
+      { id: 'exp-2', label: 'Technical Skills', url: '#skills' },
+      { id: 'exp-3', label: 'Work Experience', url: '#experience' },
+      { id: 'exp-4', label: 'Featured Projects', url: '#projects' },
+      { id: 'exp-5', label: 'Engineering Services', url: '#services' },
+      { id: 'exp-6', label: 'Development Process', url: '#process' }
+    ],
+    caseStudiesTitle: 'Case Studies',
+    caseStudiesLinks: [
+      { id: 'cs-1', label: 'Livshem (E-Commerce)', url: 'project:livshem' },
+      { id: 'cs-2', label: 'The Designs Firm', url: 'project:the-designs-firm' },
+      { id: 'cs-3', label: 'College Library System', url: 'project:college-library-system' },
+      { id: 'cs-4', label: 'Work Experience', url: '#experience' }
+    ],
+    connectTitle: 'Connect',
+    showGithub: true,
+    showLinkedin: true,
+    showTwitter: true,
+    showEmail: true,
+    showWhatsapp: true,
+    showCvDownloadButton: true,
+    cvButtonText: 'Download Active CV',
+    copyrightText: '© 2026 Sameer Habib. All rights reserved.',
+    locationTag: 'Pakistan',
+    showAdminLink: true,
+    showBackToTop: true,
+    backToTopText: 'Back to Top'
   }
 };
 

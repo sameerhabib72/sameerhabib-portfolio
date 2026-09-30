@@ -55,6 +55,48 @@ export interface SiteSettings {
     notifyOnAiInquiry: boolean;
     smtpConfig?: SmtpConfig;
   };
+  footerSettings?: FooterSettings;
+}
+
+export interface FooterCustomLink {
+  id: string;
+  label: string;
+  url: string;
+  isExternal?: boolean;
+}
+
+export interface FooterSettings {
+  brandTitle?: string;
+  brandTagline?: string;
+  brandDescription?: string;
+  brandBadge?: string;
+  showAvailabilityBadge?: boolean;
+  
+  // Navigation / Explore column
+  exploreTitle?: string;
+  showAiAssistantLink?: boolean;
+  exploreLinks?: FooterCustomLink[];
+
+  // Case studies column
+  caseStudiesTitle?: string;
+  caseStudiesLinks?: FooterCustomLink[];
+
+  // Connect column
+  connectTitle?: string;
+  showGithub?: boolean;
+  showLinkedin?: boolean;
+  showTwitter?: boolean;
+  showEmail?: boolean;
+  showWhatsapp?: boolean;
+  showCvDownloadButton?: boolean;
+  cvButtonText?: string;
+
+  // Bottom bar
+  copyrightText?: string;
+  locationTag?: string;
+  showAdminLink?: boolean;
+  showBackToTop?: boolean;
+  backToTopText?: string;
 }
 
 export interface HeroSectionData {
